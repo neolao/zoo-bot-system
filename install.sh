@@ -13,5 +13,5 @@ gem install --no-ri --no-rdoc librarian-puppet
 librarian-puppet install
 
 # Apply puppet
-puppet apply manifests/nodes.pp
+puppet apply ./manifests/nodes.pp --modulepath=./modules/
 
