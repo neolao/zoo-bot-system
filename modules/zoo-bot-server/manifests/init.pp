@@ -1,5 +1,5 @@
 class zoo-bot-server {
     class { 'nodejs':
-        version => 'v0.11.13',
+        version => 'v0.11.12',
     }
 }
