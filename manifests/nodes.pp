@@ -2,7 +2,7 @@ node base {
     # Install ntp
     include '::ntp'
 
-    # Configure locals
+    # Configure locales
     class { 'locales':
         autoupgrade     => true,
         default_locale  => 'en_US.UTF-8',
