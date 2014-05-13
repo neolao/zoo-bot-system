@@ -16,6 +16,9 @@ node base {
         ensure => present,
     }
 
+    # Install nodejs
+    include 'nodejs'
+
     # Install the server
     include 'zoo-bot-server'
 
