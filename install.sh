@@ -8,10 +8,10 @@ fi
 
 # Install puppet
 apt-get install ruby1.9.1-dev
-gem install --no-ri --no-rdoc puppet
-gem install --no-ri --no-rdoc librarian-puppet
+gem install --verbose --no-ri --no-rdoc puppet
+gem install --verbose --no-ri --no-rdoc librarian-puppet
 librarian-puppet install
 
 # Apply puppet
-puppet apply ./manifests/nodes.pp --modulepath=./modules/
+puppet apply ./manifests/nodes.pp --modulepath=./modules/ --verbose
 
