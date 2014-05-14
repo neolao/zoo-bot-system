@@ -12,7 +12,7 @@ node base {
     }
 
     # Install some tools
-    package { ['wget', 'curl', 'tar', 'sudo', ]:
+    package { ['wget', 'curl', 'tar', 'sudo', 'tmux', ]:
         ensure => present,
     }
 
