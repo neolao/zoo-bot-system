@@ -1,11 +1,12 @@
 class nodejs {
-    # Download nodejs
-    archive { 'node-v0.11.12':
+    # Requirement
+    package { ['test', 'wget', 'tar']:
         ensure => present,
-        url    => 'http://nodejs.org/dist/v0.11.12/node-v0.11.12-linux-arm-pi.tar.gz',
-        follow_redirects => true,
-        target => '/opt',
-        checksum => false,
-        src_target => '/tmp'
+    }
+
+    # Download nodejs
+    exec { 'Download nodejs archive':
+        command => 'wget -O /tmp/node-v0.11.6.tar.gz http://nodejs.org/dist/v0.11.6/node-v0.11.6-linux-arm-pi.tar.gz',
+        onlyif  => 'test ! -e /tmp/node-v0.11.6.tar.gz'
     }
 }

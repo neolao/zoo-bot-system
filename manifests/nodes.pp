@@ -11,11 +11,6 @@ node base {
         ],
     }
 
-    # Install some tools
-    package { ['wget', 'curl', 'tar', 'sudo', 'tmux', ]:
-        ensure => present,
-    }
-
     # Install nodejs
     include 'nodejs'
 
