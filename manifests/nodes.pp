@@ -1,4 +1,9 @@
 node base {
+    # Set path of the exec
+    Exec {
+        path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ]
+    }
+
     # Install ntp
     include '::ntp'
 
