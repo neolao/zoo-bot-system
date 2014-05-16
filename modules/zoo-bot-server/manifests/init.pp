@@ -7,7 +7,7 @@ class zoo-bot-server {
     # Copy files
     file { '/opt/zoo-bot-server':
         ensure => 'directory',
-        source => 'puppet:///modules/zoot-bot-server'
+        source => 'puppet:///modules/zoo-bot-server'
     }
 
     # Installation
