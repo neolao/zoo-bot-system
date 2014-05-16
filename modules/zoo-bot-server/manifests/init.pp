@@ -1,13 +1,9 @@
 class zoo-bot-server {
-    # Requirement
-    package { ['git']:
-        ensure => installed,
-    }
-
     # Copy files
     file { '/opt/zoo-bot-server':
-        ensure => 'directory',
-        source => 'puppet:///modules/zoo-bot-server'
+        ensure  => 'directory',
+        recurse => true,
+        source  => 'puppet:///modules/zoo-bot-server'
     }
 
     # Installation
