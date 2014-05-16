@@ -7,6 +7,8 @@ class zoo-bot-server {
     }
 
     # Installation
+    include nodejs
+    include nodejs::npm
     class { 'nodejs::npm':
         command => 'install'
     }
