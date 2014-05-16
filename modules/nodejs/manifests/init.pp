@@ -1,12 +1,23 @@
 class nodejs {
+    # Variables
+    $nodeVersion = '0.11.6'
+    #$nodePlatform = 'arm-pi'
+    $nodePlatform = 'x64'
+
     # Requirement
-    package { ['test', 'wget', 'tar']:
-        ensure => present,
+    package { ['wget', 'tar']:
+        ensure => installed,
     }
 
     # Download nodejs
     exec { 'Download nodejs archive':
-        command => 'wget -O /tmp/node-v0.11.6.tar.gz http://nodejs.org/dist/v0.11.6/node-v0.11.6-linux-arm-pi.tar.gz',
-        onlyif  => 'test ! -e /tmp/node-v0.11.6.tar.gz'
+        command => "wget -O /tmp/node-v${nodeVersion}.tar.gz http://nodejs.org/dist/v${nodeVersion}/node-v${nodeVersion}-linux-${nodePlatform}.tar.gz",
+        onlyif  => "test ! -e /tmp/node-v${nodeVersion}.tar.gz"
+    }
+
+    # Extract
+    exec { 'Extract nodejs archive':
+        command => "tar --directory /opt/nodejs --extract /tmp/node-v${nodeVersion}.tar.gz",
+        onlyif  => "test ! -d /opt/nodejs"
     }
 }

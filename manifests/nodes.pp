@@ -5,19 +5,16 @@ node base {
     }
 
     # Install ntp
-    include '::ntp'
+    #include 'ntp'
 
     # Configure locales
-    class { 'locales':
-        autoupgrade     => true,
-        default_locale  => 'en_US.UTF-8',
-        locales         => [
-            'en_US.UTF-8 UTF-8',
-        ],
-    }
-
-    # Install nodejs
-    include 'nodejs'
+    #class { 'locales':
+    #    autoupgrade     => true,
+    #    default_locale  => 'en_US.UTF-8',
+    #    locales         => [
+    #        'en_US.UTF-8 UTF-8',
+    #    ],
+    #}
 
     # Install the server
     include 'zoo-bot-server'
