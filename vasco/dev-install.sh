@@ -4,6 +4,7 @@
 cd ~/
 
 # Install packages
+sudo apt-get update
 sudo apt-get install -y git zsh unzip ctags vim tmux gcc
 
 # Install ZSH
