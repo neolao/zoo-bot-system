@@ -6,6 +6,7 @@ var config = require('./config.json');
 wpi.setup();
 
 var wasOpen = false;
+var lastUpdate = new Date();
 async.forever(
     function(tic) {
         var now = new Date();
@@ -13,26 +14,23 @@ async.forever(
         var sensor = wpi.digitalRead(0);
         var isOpen = (sensor)?true:false;
 
-        if (wasOpen === isOpen) {
-            tic();
-            return;
-        }
-        wasOpen = isOpen;
-
-        if (isOpen) {
-            console.log(prefix, 'Pas verrouillé');
-        } else {
-            console.log(prefix, 'Verrouillé');
+        if (wasOpen !== isOpen) {
+            if (isOpen) {
+                console.log(prefix, 'Pas verrouillé');
+            } else {
+                console.log(prefix, 'Verrouillé');
+            }
         }
 
 
         var boardTimestamp = Math.floor(new Date().getTime() / 1000);
 
         async.series([
+            // Status
             function(next) {
                 var boardData = {
                     timestamp: boardTimestamp,
-                    value: (isOpen)?1:0
+                    value: (isOpen)?3:0
                 };
                 request.post(
                     'https://push.ducksboard.com/v/582741',
@@ -51,7 +49,37 @@ async.forever(
                     }
                 );
             },
+
+            // Graph
             function(next) {
+                var boardData = {
+                    timestamp: boardTimestamp,
+                    value: (isOpen)?0:5
+                };
+                request.post(
+                    'https://push.ducksboard.com/v/582910',
+                    {
+                        auth: {
+                            user: config.ducksboardApiKey,
+                            pass: 'unused',
+                            sendImmediately: true
+                        },
+                        form: JSON.stringify(boardData)
+                    },
+                    function (error, response, body) {
+                        //console.log(prefix, 'dashboard', response.statusCode);
+                        //console.log(body);
+                        next();
+                    }
+                );
+            },
+
+            // Timeline
+            function(next) {
+                if (wasOpen === isOpen) {
+                    next();
+                    return;
+                }
                 var boardData = {
                     timestamp: boardTimestamp,
                     value: {
@@ -78,6 +106,7 @@ async.forever(
                 );
             }
         ], function(error, result) {
+            wasOpen = isOpen;
             setTimeout(tic, 1000);
         });
     },
