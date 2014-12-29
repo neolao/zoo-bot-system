@@ -21,7 +21,7 @@ async.forever(
             return;
         }
 
-        console.log('BOUM');
+        console.log(prefix, 'BOUM');
         async.series([
             function(next) {
                 var child = exec('amixer cset numid=1 -- 100%', function(error, stdout, stderr) {
@@ -29,6 +29,18 @@ async.forever(
                 });
             },
         
+            function(next) {
+                var filePath = __dirname + '/sounds/berger2.wav';
+                var child = exec('aplay ' + filePath, function(error, stdout, stderr) {
+                    next();
+                });
+            },
+            function(next) {
+                var filePath = __dirname + '/sounds/berger2.wav';
+                var child = exec('aplay ' + filePath, function(error, stdout, stderr) {
+                    next();
+                });
+            },
             function(next) {
                 var filePath = __dirname + '/sounds/berger2.wav';
                 var child = exec('aplay ' + filePath, function(error, stdout, stderr) {
