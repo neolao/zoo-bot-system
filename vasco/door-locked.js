@@ -1,3 +1,6 @@
+'use strict';
+
+var exec = require('child_process').exec;
 var wpi = require('wiring-pi');
 var request = require('request');
 var async = require('async');
@@ -114,3 +117,31 @@ async.forever(
     }
 );
 
+var cameraIndex = 0;
+var cameraLastIndex = 0;
+async.forever(
+    function(tic) {
+        cameraLastIndex = cameraIndex;
+        cameraIndex++;
+        if (cameraIndex % 10 === 0) {
+            cameraIndex = 0;
+        }
+
+        var command = 'raspistill \
+                    --width 800 \
+                    --height 800 \
+                    --encoding jpg \
+                    --quality 90 \
+                    --exposure auto \
+                    --ISO 3000 \
+                    --timeout 1000 \
+                    --rotation 270 \
+                    --latest /ram/latest.jpg \
+                    --output /ram/camera-' + cameraIndex + '.jpg';
+        var child = exec(command, function(error, stdout, stderr) {
+            setImmediate(tic);
+        });
+    },
+    function(error) {
+    }
+);

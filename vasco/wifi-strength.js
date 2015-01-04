@@ -21,7 +21,7 @@ async.forever(
 
             // Gauge
             function(strength, next) {
-                console.log(prefix, strength + '%');
+                // console.log(prefix, strength + '%');
 
                 var boardData = {
                     timestamp: nowTimestamp,
