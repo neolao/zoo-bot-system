@@ -136,6 +136,7 @@ async.forever(
                     --ISO 3000 \
                     --timeout 1000 \
                     --rotation 270 \
+                    --roi 0.42,0.28,0.3,0.3 \
                     --latest /ram/latest.jpg \
                     --output /ram/camera-' + cameraIndex + '.jpg';
         var child = exec(command, function(error, stdout, stderr) {
