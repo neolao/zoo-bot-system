@@ -8,15 +8,16 @@ var config = require('./config.json');
 // Initialize WiringPi
 wpi.setup();
 
-wpi.pinMode(0, wpi.modes.OUTPUT);
-wpi.digitalWrite(0, 1);
+wpi.pinMode(0, wpi.modes.INPUT);
+//wpi.pinMode(0, wpi.modes.OUTPUT);
+//wpi.digitalWrite(0, 1);
 
 var lastDetect = 0;
 async.forever(
     function(tic) {
         var now = new Date();
         var prefix = '[' + now.toISOString() + ']';
-        var sensor = wpi.digitalRead(1);
+        var sensor = wpi.digitalRead(0);
     
         if (sensor === lastDetect) {
             setImmediate(tic);
