@@ -6,7 +6,10 @@ var request = require('request');
 var async = require('async');
 var config = require('./config.json');
 
-wpi.setup();
+wpi.setup('wpi');
+wpi.pinMode(28, wpi.OUTPUT);
+wpi.digitalWrite(28, 1);
+
 
 var wasOpen = false;
 var lastUpdate = new Date();
@@ -14,7 +17,7 @@ async.forever(
     function(tic) {
         var now = new Date();
         var prefix = '[' + now.toISOString() + ']';
-        var sensor = wpi.digitalRead(0);
+        var sensor = wpi.digitalRead(29);
         var isOpen = (sensor)?true:false;
 
         if (wasOpen !== isOpen) {
@@ -128,8 +131,8 @@ async.forever(
         }
 
         var command = 'raspistill \
-                    --width 800 \
-                    --height 800 \
+                    --width 640 \
+                    --height 480 \
                     --encoding jpg \
                     --quality 90 \
                     --exposure auto \
@@ -139,8 +142,12 @@ async.forever(
                     --roi 0.42,0.28,0.3,0.3 \
                     --latest /ram/latest.jpg \
                     --output /ram/camera-' + cameraIndex + '.jpg';
-        var child = exec(command, function(error, stdout, stderr) {
-            setImmediate(tic);
+        var takePicture = exec(command, function(error, stdout, stderr) {
+            setImmediate(function() {
+                var displayToScreen = exec('fbi -T 2 -t 5 -once -d /dev/fb1 -noverbose -a /ram/latest.jpg', function(error, stdout, stderr) {
+                    setImmediate(tic);
+                });
+            });
         });
     },
     function(error) {

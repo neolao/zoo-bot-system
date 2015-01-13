@@ -6,7 +6,7 @@
     },
     "dependencies"  :
     {
-        "wiring-pi"     : "1.1.2",
+        "wiring-pi"     : "*",
         "request"       : "2.51.0",
         "async"         : "0.9.0"
     }
